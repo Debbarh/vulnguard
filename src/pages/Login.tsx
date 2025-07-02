@@ -5,9 +5,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Shield, Eye, EyeOff, AlertCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -18,6 +19,9 @@ const Login = () => {
     e.preventDefault();
     // Logique d'authentification à implémenter avec Supabase
     console.log("Login attempt:", formData);
+    
+    // Redirection vers le dashboard après connexion
+    navigate("/dashboard");
   };
 
   return (
