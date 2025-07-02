@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { AlertTriangle, Clock, CheckCircle, User, Calendar, ExternalLink } from "lucide-react";
+import TreatmentProcedureModal from "./TreatmentProcedureModal";
 
 interface Alert {
   id: number;
@@ -23,8 +23,10 @@ interface Alert {
 const AlertsPanel = () => {
   const [filterSeverity, setFilterSeverity] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [alerts] = useState<Alert[]>([
+  const [alerts, setAlerts] = useState<Alert[]>([
     {
       id: 1,
       title: "Vulnérabilité critique Apache Struts RCE",
@@ -76,6 +78,21 @@ const AlertsPanel = () => {
       source: "DGSSI MaCERT"
     }
   ]);
+
+  const handleTreatAlert = (alert: Alert) => {
+    setSelectedAlert(alert);
+    setIsModalOpen(true);
+  };
+
+  const handleStatusUpdate = (alertId: number, status: string, assignedTo?: string, comments?: string) => {
+    setAlerts(prevAlerts => 
+      prevAlerts.map(alert => 
+        alert.id === alertId 
+          ? { ...alert, status: status as Alert["status"], assignedTo }
+          : alert
+      )
+    );
+  };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -275,7 +292,10 @@ const AlertsPanel = () => {
                       Détails
                     </Button>
                     {alert.status !== "resolu" && (
-                      <Button size="sm">
+                      <Button 
+                        size="sm"
+                        onClick={() => handleTreatAlert(alert)}
+                      >
                         Traiter
                       </Button>
                     )}
@@ -286,6 +306,13 @@ const AlertsPanel = () => {
           </div>
         </CardContent>
       </Card>
+
+      <TreatmentProcedureModal
+        alert={selectedAlert}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onStatusUpdate={handleStatusUpdate}
+      />
     </div>
   );
 };
