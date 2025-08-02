@@ -36,6 +36,7 @@ const DashboardLayout = ({ children, activeTab, onTabChange }: DashboardLayoutPr
     { id: "inventory", label: "Inventaire SI", icon: Database },
     { id: "alerts", label: "Alertes", icon: AlertTriangle },
     { id: "reports", label: "Rapports", icon: TrendingUp },
+    { id: "maturity", label: "Maturité ISO 27001", icon: Settings },
   ];
 
   const handleLogout = () => {

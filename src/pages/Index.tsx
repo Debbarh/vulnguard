@@ -175,6 +175,11 @@ const Index = () => {
       {activeTab === "inventory" && <InventoryManagement />}
       {activeTab === "alerts" && <AlertsPanel />}
       {activeTab === "reports" && <ReportsPanel />}
+      {activeTab === "maturity" && (
+        <div className="text-center p-8">
+          <p className="text-gray-600">Le module d'évaluation de maturité ISO 27001 est disponible à l'adresse /maturity</p>
+        </div>
+      )}
     </DashboardLayout>
   );
 };
