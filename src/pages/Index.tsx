@@ -3,11 +3,11 @@ import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Shield, AlertTriangle, Server, Database, Globe, Users, TrendingUp, Clock } from "lucide-react";
+import { Shield, AlertTriangle, Server, Globe, TrendingUp, Clock } from "lucide-react";
 import InventoryManagement from "@/components/InventoryManagement";
 import AlertsPanel from "@/components/AlertsPanel";
 import ReportsPanel from "@/components/ReportsPanel";
+import DashboardLayout from "@/components/DashboardLayout";
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -170,53 +170,12 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto p-6">
-        {/* Navigation principale */}
-        <div className="mb-6">
-          <nav className="flex space-x-1 bg-white rounded-lg p-1 shadow">
-            <Button
-              variant={activeTab === "dashboard" ? "default" : "ghost"}
-              onClick={() => setActiveTab("dashboard")}
-              className="flex-1"
-            >
-              <Shield className="h-4 w-4 mr-2" />
-              Dashboard
-            </Button>
-            <Button
-              variant={activeTab === "inventory" ? "default" : "ghost"}
-              onClick={() => setActiveTab("inventory")}
-              className="flex-1"
-            >
-              <Database className="h-4 w-4 mr-2" />
-              Inventaire SI
-            </Button>
-            <Button
-              variant={activeTab === "alerts" ? "default" : "ghost"}
-              onClick={() => setActiveTab("alerts")}
-              className="flex-1"
-            >
-              <AlertTriangle className="h-4 w-4 mr-2" />
-              Alertes
-            </Button>
-            <Button
-              variant={activeTab === "reports" ? "default" : "ghost"}
-              onClick={() => setActiveTab("reports")}
-              className="flex-1"
-            >
-              <TrendingUp className="h-4 w-4 mr-2" />
-              Rapports
-            </Button>
-          </nav>
-        </div>
-
-        {/* Contenu principal */}
-        {activeTab === "dashboard" && renderDashboard()}
-        {activeTab === "inventory" && <InventoryManagement />}
-        {activeTab === "alerts" && <AlertsPanel />}
-        {activeTab === "reports" && <ReportsPanel />}
-      </div>
-    </div>
+    <DashboardLayout activeTab={activeTab} onTabChange={setActiveTab}>
+      {activeTab === "dashboard" && renderDashboard()}
+      {activeTab === "inventory" && <InventoryManagement />}
+      {activeTab === "alerts" && <AlertsPanel />}
+      {activeTab === "reports" && <ReportsPanel />}
+    </DashboardLayout>
   );
 };
 
